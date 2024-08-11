@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/autobrr/go-qbittorrent/errors"
+	"github.com/Jraaay/go-qbittorrent/errors"
 )
 
 // Login https://github.com/qbittorrent/qBittorrent/wiki/WebUI-API-(qBittorrent-4.1)#authentication
@@ -1124,6 +1124,33 @@ func (c *Client) ToggleFirstLastPiecePrioCtx(ctx context.Context, hashes []strin
 
 	if resp.StatusCode != http.StatusOK {
 		return errors.New("unexpected status while toggling first/last piece priority for torrents: %v, status: %d", hashes, resp.StatusCode)
+	}
+
+	return nil
+}
+
+// SetTorrentUploadLimit set upload limit for torrent specified by hash
+func (c *Client) SetTorrentUploadLimit(hash string, limit int64) error {
+	return c.SetTorrentUploadLimitCtx(context.Background(), hash, limit)
+}
+
+// SetTorrentUploadLimitCtx set upload limit for torrent specified by hash
+func (c *Client) SetTorrentUploadLimitCtx(ctx context.Context, hash string, limit int64) error {
+	// Add hashes together with | separator
+	opts := map[string]string{
+		"hashes": hash,
+		"limit":  strconv.FormatInt(limit, 10),
+	}
+
+	resp, err := c.postCtx(ctx, "torrents/setUploadLimit", opts)
+	if err != nil {
+		return errors.Wrap(err, "could not set upload limit torrent: %v", hash)
+	}
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return errors.New("could not set upload limit torrent: %v unexpected status: %v", hash, resp.StatusCode)
 	}
 
 	return nil

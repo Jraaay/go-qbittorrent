@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/autobrr/go-qbittorrent/errors"
+	"github.com/Jraaay/go-qbittorrent/errors"
 	"github.com/avast/retry-go"
 )
 

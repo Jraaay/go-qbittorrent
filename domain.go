@@ -3,7 +3,7 @@ package qbittorrent
 import (
 	"strconv"
 
-	"github.com/autobrr/go-qbittorrent/errors"
+	"github.com/Jraaay/go-qbittorrent/errors"
 )
 
 var (

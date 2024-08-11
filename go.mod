@@ -1,4 +1,4 @@
-module github.com/autobrr/go-qbittorrent
+module github.com/Jraaay/go-qbittorrent
 
 go 1.19
 
